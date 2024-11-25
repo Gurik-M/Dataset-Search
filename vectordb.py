@@ -1,5 +1,4 @@
 # IMPORTING DATA INTO PINECONE
-
 from sentence_transformers import SentenceTransformer
 from pinecone import Pinecone, ServerlessSpec
 from datasets import load_dataset
