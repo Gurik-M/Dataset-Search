@@ -62,7 +62,3 @@ There are 3 deployment options. In my opinion, a container deployment with Docke
 3. Serverless:
  - These scripts can be built into a serverless function with AWS Lambda as long as you install the necessary
    Python dependencies into your function environment (this can be done by zipping all dependencies into a single folder).
-
-
-
-

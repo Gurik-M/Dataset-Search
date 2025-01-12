@@ -8,8 +8,8 @@ from tqdm.auto import tqdm
 def init_pinecone(api_key):
     return Pinecone(api_key=api_key)
 
+# Create a new Pinecone index if it doesn't exist, return original if it does exist
 def create_index(pc, index_name, dimension, region="us-east-1"):
-    """Create a new Pinecone index if it doesn't exist, return original if it does exist"""
     spec = ServerlessSpec(cloud="aws", region=region)
     
     if index_name not in pc.list_indexes().names():
@@ -25,8 +25,8 @@ def create_index(pc, index_name, dimension, region="us-east-1"):
     
     return pc.Index(index_name)
 
+# Upsert texts to Pinecone index in batches
 def batch_upsert(index, texts, model, batch_size=32):
-    """Upsert texts to Pinecone index in batches"""
     for i in tqdm(range(0, len(texts), batch_size)):
         # set end position of batch
         i_end = min(i+batch_size, len(texts))
@@ -42,8 +42,8 @@ def batch_upsert(index, texts, model, batch_size=32):
         index.upsert(vectors=list(to_upsert))
         print(f"Done! Upserted batch {i//batch_size} of {len(texts)//batch_size}")
 
+# Query the index with a text string
 def query_index(index, query_text, model, top_k=5):
-    """Query the index with a text string"""
     xq = model.encode(query_text).tolist()
     results = index.query(
         vector=xq,
@@ -53,8 +53,8 @@ def query_index(index, query_text, model, top_k=5):
     )
     return results
 
+# Index TREC dataset into Pinecone
 def index_trec_dataset(api_key, index_name, model_name='all-MiniLM-L6-v2', sample_size=1000):
-    """Index TREC dataset into Pinecone"""
     # Initialize model and Pinecone
     model = SentenceTransformer(model_name)
     pc = init_pinecone(api_key)
@@ -72,8 +72,8 @@ def index_trec_dataset(api_key, index_name, model_name='all-MiniLM-L6-v2', sampl
     
     return index
 
+# Index custom list of texts into Pinecone
 def index_custom_dataset(api_key, index_name, texts, model_name='all-MiniLM-L6-v2'):
-    """Index custom list of texts into Pinecone"""
     # Initialize model and Pinecone
     model = SentenceTransformer(model_name)
     pc = init_pinecone(api_key)

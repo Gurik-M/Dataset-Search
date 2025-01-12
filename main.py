@@ -2,7 +2,7 @@ from sentence_transformers import SentenceTransformer
 import vectordb
 
 # Configuration
-API_KEY = "8a0f731f-5f83-4acd-a520-4e2c73b429a2"
+API_KEY = "YOUR_API_KEY"
 INDEX_NAME = 'semantic-search-mini-lm'
 MODEL_NAME = 'all-MiniLM-L6-v2'
 
